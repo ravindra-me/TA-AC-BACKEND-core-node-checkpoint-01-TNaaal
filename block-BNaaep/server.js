@@ -42,8 +42,22 @@ function handleRequest(req, res) {
     } else if (req.method === 'GET' && parseUrl.pathname === '/users') {
       fs.readFile(userPath + parseUrl.query.username, (err, user) => {
         if (err) console.log(err);
-        res.setHeader('Content-Type', 'application/json');
-        res.end(user);
+        res.setHeader('Content-Type', 'text/html');
+        let parseUser = JSON.parse(user);
+        res.end(`
+          <h2> ${parseUser.name}</h2>
+          <h2> ${parseUser.email}</h2>
+          <h2> ${parseUser.username}</h2>
+          <h2>${parseUser.age}</h2>
+          <h2>${parseUser.bio}</h2>
+        `);
+      });
+    } else if (req.url === '/users' && req.method === 'GET') {
+      fs.readdir('./users', (err, files) => {
+        if (err) console.log(err);
+        files.forEach((file) => {
+          console.log(file);
+        });
       });
     }
   });
