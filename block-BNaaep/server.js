@@ -1,4 +1,3 @@
-const { mkdir } = require('fs');
 let http = require('http');
 let server = http.createServer(handleRequest);
 let dirPath = __dirname;
@@ -40,7 +39,7 @@ function handleRequest(req, res) {
         });
       });
     } else if (req.method === 'GET' && parseUrl.pathname === '/users') {
-      fs.readFile(userPath + parseUrl.query.username, (err, user) => {
+      fs.readFile(userPath + parseUrl.query.username + '.json', (err, user) => {
         if (err) console.log(err);
         res.setHeader('Content-Type', 'text/html');
         let parseUser = JSON.parse(user);
